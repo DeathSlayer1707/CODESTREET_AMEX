@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResolveIQ — Interactive Portal Wireframes</title>
+<style>
+  :root {
+    --navy:   #003087;
+    --blue:   #006FCF;
+    --blue2:  #1A5E9E;
+    --gold:   #C8A84B;
+    --ice:    #D6E4F7;
+    --offwh:  #F4F7FB;
+    --ltgray: #E8EDF3;
+    --gray:   #5A6675;
+    --dkgray: #2D3748;
+    --white:  #FFFFFF;
+    --green:  #1A7340;
+    --green2: #E6F4ED;
+    --red:    #C0392B;
+    --red2:   #FDF0EE;
+    --amber:  #B7770D;
+    --amber2: #FEF6E4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0B1929;
+    color: var(--dkgray);
+    min-height: 100vh;
+  }
+
+  /* ── Top nav ── */
+  .top-nav {
+    background: var(--navy);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 2px solid var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    padding: 1rem 1.5rem 1rem 0;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    margin-right: 0.5rem;
+  }
+  .brand span { color: var(--gold); }
+  .portal-tabs {
+    display: flex;
+    gap: 0;
+    flex: 1;
+  }
+  .ptab {
+    padding: 1rem 1.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .ptab:hover { color: rgba(255,255,255,0.85); }
+  .ptab.active { color: var(--white); border-bottom-color: var(--gold); }
+  .nav-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--ice);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* ── Portal container ── */
+  .portal { display: none; min-height: calc(100vh - 56px); }
+  .portal.active { display: flex; flex-direction: column; }
+
+  /* ── Portal inner nav (sidebar + main) ── */
+  .portal-layout { display: flex; flex: 1; }
+  .sidebar {
+    width: 220px;
+    min-height: 100%;
+    background: var(--navy);
+    padding: 1.5rem 0;
+    flex-shrink: 0;
+  }
+  .sidebar-section {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1rem 1.25rem 0.4rem;
+  }
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.6rem 1.25rem;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.83rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .sidebar-item:hover { color: white; background: rgba(255,255,255,0.05); }
+  .sidebar-item.active { color: white; background: rgba(0,111,207,0.25); border-left-color: var(--gold); }
+  .sidebar-item .icon { font-size: 1rem; width: 20px; text-align: center; }
+  .badge-count {
+    margin-left: auto;
+    background: var(--blue);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+
+  /* ── Main content ── */
+  .main { flex: 1; background: var(--offwh); padding: 2rem; overflow-y: auto; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+  }
+  .page-title { font-size: 1.4rem; font-weight: 700; color: var(--navy); }
+  .page-subtitle { font-size: 0.82rem; color: var(--gray); margin-top: 0.15rem; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: var(--blue2); }
+  .btn-secondary { background: white; color: var(--navy); border: 1.5px solid var(--ltgray); }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+  .btn-gold { background: var(--gold); color: white; }
+  .btn-danger { background: var(--red); color: white; }
+  .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
+
+  /* ── Cards / panels ── */
+  .card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--ltgray);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .card-title { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.25rem; }
+
+  /* ── Stat cards ── */
+  .stat-card {
+    background: white;
+    border: 1px solid var(--ltgray);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .stat-label { font-size: 0.72rem; color: var(--gray); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-val { font-size: 1.8rem; font-weight: 800; color: var(--navy); line-height: 1; }
+  .stat-sub { font-size: 0.72rem; color: var(--green); font-weight: 600; }
+  .stat-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+
+  /* ── Status badges ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .badge-green { background: var(--green2); color: var(--green); }
+  .badge-amber { background: var(--amber2); color: var(--amber); }
+  .badge-red { background: var(--red2); color: var(--red); }
+  .badge-blue { background: #E3EEFA; color: var(--blue); }
+  .badge-gray { background: var(--ltgray); color: var(--gray); }
+
+  /* ── Timeline / tracker ── */
+  .tracker {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 1.5rem 0;
+  }
+  .tracker-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+  }
+  .tracker-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    z-index: 1;
+  }
+  .tracker-dot.done { background: var(--green); color: white; }
+  .tracker-dot.active { background: var(--blue); color: white; box-shadow: 0 0 0 4px rgba(0,111,207,0.2); }
+  .tracker-dot.pending { background: var(--ltgray); color: var(--gray); }
+  .tracker-label { font-size: 0.68rem; font-weight: 600; color: var(--gray); margin-top: 0.4rem; text-align: center; }
+  .tracker-label.done { color: var(--green); }
+  .tracker-label.active { color: var(--blue); }
+  .tracker-line {
+    flex: 1;
+    height: 2px;
+    background: var(--ltgray);
+    margin-top: -16px;
+  }
+  .tracker-line.done { background: var(--green); }
+
+  /* ── Table ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead tr { background: var(--navy); }
+  thead th {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--ice);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  tbody tr { border-bottom: 1px solid var(--ltgray); transition: background 0.1s; }
+  tbody tr:hover { background: var(--offwh); }
+  tbody td { padding: 0.75rem 1rem; color: var(--dkgray); vertical-align: middle; }
+  tbody td.mono { font-family: monospace; font-size: 0.78rem; color: var(--gray); }
+
+  /* ── Evidence items ── */
+  .evidence-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--ltgray);
+  }
+  .evidence-item:last-child { border-bottom: none; }
+  .ev-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: var(--ice);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .ev-icon.auto { background: #E3EEFA; }
+  .ev-label { font-size: 0.82rem; font-weight: 600; color: var(--dkgray); }
+  .ev-sub { font-size: 0.72rem; color: var(--gray); }
+  .ev-actions { margin-left: auto; display: flex; gap: 0.4rem; }
+
+  /* ── Score bar ── */
+  .score-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+  .score-label { font-size: 0.78rem; color: var(--dkgray); width: 160px; flex-shrink: 0; }
+  .score-bar-bg { flex: 1; height: 8px; background: var(--ltgray); border-radius: 4px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 4px; background: var(--blue); transition: width 0.8s ease; }
+  .score-val { font-size: 0.75rem; font-weight: 700; color: var(--navy); width: 36px; text-align: right; }
+
+  /* ── Decision box ── */
+  .decision-box {
+    background: var(--navy);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    color: white;
+    margin-bottom: 1.25rem;
+  }
+  .decision-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .decision-icon { font-size: 1.6rem; }
+  .decision-title { font-size: 1rem; font-weight: 700; }
+  .decision-sub { font-size: 0.8rem; color: var(--ice); }
+  .decision-text { font-size: 0.82rem; color: var(--ice); line-height: 1.6; }
+  .confidence-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(200,168,75,0.2);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: auto;
+  }
+
+  /* ── Upload drop zone ── */
+  .upload-zone {
+    border: 2px dashed var(--ltgray);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+  .upload-zone:hover { border-color: var(--blue); background: #F0F6FF; }
+  .upload-zone-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .upload-zone-text { font-size: 0.85rem; color: var(--gray); }
+  .upload-zone-text strong { color: var(--blue); cursor: pointer; }
+
+  /* ── Form ── */
+  .form-group { margin-bottom: 1rem; }
+  .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--dkgray); margin-bottom: 0.35rem; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.55rem 0.85rem;
+    border: 1.5px solid var(--ltgray);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    color: var(--dkgray);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0,111,207,0.1);
+  }
+  .form-textarea { resize: vertical; min-height: 80px; }
+
+  /* ── Chart bar (ops) ── */
+  .bar-chart { display: flex; align-items: flex-end; gap: 0.5rem; height: 120px; padding-bottom: 1.5rem; position: relative; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; height: 100%; justify-content: flex-end; }
+  .bar-fill {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    background: var(--blue);
+    transition: height 0.6s ease;
+    min-height: 4px;
+  }
+  .bar-label { font-size: 0.6rem; color: var(--gray); }
+  .bar-val { font-size: 0.65rem; font-weight: 700; color: var(--navy); }
+
+  /* ── Notification bar ── */
+  .notif {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    font-size: 0.82rem;
+    border-left: 4px solid;
+  }
+  .notif.success { background: var(--green2); border-color: var(--green); color: var(--green); }
+  .notif.warning { background: var(--amber2); border-color: var(--amber); color: var(--amber); }
+  .notif.info { background: #E3EEFA; border-color: var(--blue); color: var(--blue2); }
+
+  /* ── Queue item (ops) ── */
+  .queue-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    border: 1px solid var(--ltgray);
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.6rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .queue-item:hover { border-color: var(--blue); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .queue-score {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .score-low { background: var(--red2); color: var(--red); }
+  .score-med { background: var(--amber2); color: var(--amber); }
+
+  /* ── Audit log ── */
+  .log-entry {
+    display: flex;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--ltgray);
+    font-size: 0.78rem;
+  }
+  .log-time { color: var(--gray); width: 75px; flex-shrink: 0; font-family: monospace; font-size: 0.72rem; }
+  .log-actor { color: var(--blue); font-weight: 600; width: 120px; flex-shrink: 0; }
+  .log-action { color: var(--dkgray); }
+  .log-hash { color: var(--gray); font-family: monospace; font-size: 0.66rem; margin-left: auto; }
+
+  /* ── AI explanation ── */
+  .ai-box {
+    background: linear-gradient(135deg, #EDF3FB 0%, #F4F7FB 100%);
+    border: 1px solid #C2D9F0;
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .ai-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.6rem;
+  }
+  .ai-text { font-size: 0.82rem; color: var(--dkgray); line-height: 1.65; }
+
+  /* ── Divider ── */
+  .divider { height: 1px; background: var(--ltgray); margin: 1.25rem 0; }
+
+  /* ── Deadline countdown ── */
+  .countdown {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--amber2);
+    border: 1px solid #E8C968;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .countdown-icon { font-size: 1.3rem; }
+  .countdown-text { font-size: 0.82rem; color: var(--amber); font-weight: 600; }
+  .countdown-time { font-size: 1.3rem; font-weight: 800; color: var(--amber); margin-left: auto; }
+
+  /* small tag */
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.45rem;
+    background: var(--ice);
+    color: var(--blue2);
+    border-radius: 4px;
+    font-size: 0.67rem;
+    font-weight: 600;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+  }
+
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: auto;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.78rem;
+  }
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- TOP NAV -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<nav class="top-nav">
+  <div class="brand">Resolve<span>IQ</span></div>
+  <div class="portal-tabs">
+    <div class="ptab active" onclick="switchPortal('member')">💳 Card Member Portal</div>
+    <div class="ptab" onclick="switchPortal('merchant')">🏪 Merchant Portal</div>
+    <div class="ptab" onclick="switchPortal('ops')">🖥 AMEX Ops Dashboard</div>
+  </div>
+  <div class="nav-badge">Interactive Wireframe · Round 1</div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PORTAL 1: CARD MEMBER -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="portal active" id="portal-member">
+  <div class="portal-layout">
+    <aside class="sidebar" style="display:flex;flex-direction:column;">
+      <div class="sidebar-section">My Account</div>
+      <div class="sidebar-item active" onclick="showPage('member','dashboard')"><span class="icon">🏠</span> Dashboard</div>
+      <div class="sidebar-item" onclick="showPage('member','file')"><span class="icon">➕</span> File a Dispute</div>
+      <div class="sidebar-section">My Disputes</div>
+      <div class="sidebar-item" onclick="showPage('member','track')"><span class="icon">📍</span> Track Status <span class="badge-count">2</span></div>
+      <div class="sidebar-item" onclick="showPage('member','decision')"><span class="icon">⚖️</span> Decisions</div>
+      <div class="sidebar-section">Account</div>
+      <div class="sidebar-item"><span class="icon">💳</span> My Cards</div>
+      <div class="sidebar-item"><span class="icon">🔔</span> Notifications</div>
+      <div class="sidebar-item"><span class="icon">⚙️</span> Settings</div>
+      <div class="user-chip">
+        <div class="avatar">AK</div>
+        <div><div style="color:white;font-weight:600;font-size:0.78rem;">Arjun Kumar</div><div style="font-size:0.65rem;">Gold Card Member</div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- Dashboard -->
+      <div class="page active" id="member-dashboard">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Good morning, Arjun 👋</div>
+            <div class="page-subtitle">Here's what's happening with your account</div>
+          </div>
+          <button class="btn btn-primary" onclick="showPage('member','file')">➕ File a Dispute</button>
+        </div>
+
+        <div class="notif success">✅ <strong>Dispute #DIS-2847 resolved</strong> — Favoured in your favour. $129.99 credited. <a href="#" style="color:var(--green);font-weight:700;" onclick="showPage('member','decision');return false;">View decision →</a></div>
+
+        <div class="grid-4">
+          <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-label">Active Disputes</div><div class="stat-val">2</div><div class="stat-sub">1 auto-resolved today</div></div>
+          <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-label">Amount in Dispute</div><div class="stat-val">$312</div><div class="stat-sub">across 2 cases</div></div>
+          <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-label">Resolved (90 days)</div><div class="stat-val">5</div><div class="stat-sub">avg. 4 min resolution</div></div>
+          <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-label">Win Rate</div><div class="stat-val">80%</div><div class="stat-sub">4 of 5 resolved in your favour</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Active Disputes</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Case ID</th><th>Merchant</th><th>Amount</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr onclick="showPage('member','track')" style="cursor:pointer;">
+                    <td class="mono">#DIS-2891</td>
+                    <td>Zara India</td>
+                    <td><strong>$182</strong></td>
+                    <td><span class="badge badge-blue">🔄 In Review</span></td>
+                  </tr>
+                  <tr onclick="showPage('member','track')" style="cursor:pointer;">
+                    <td class="mono">#DIS-2903</td>
+                    <td>Swiggy Instamart</td>
+                    <td><strong>$130</strong></td>
+                    <td><span class="badge badge-amber">⏳ Evidence Needed</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Recent Activity</div>
+            <div class="evidence-item">
+              <div class="ev-icon">⚡</div>
+              <div><div class="ev-label">Auto-resolved: #DIS-2847</div><div class="ev-sub">$129.99 · Merchant couldn't provide delivery confirmation · 3 min ago</div></div>
+            </div>
+            <div class="evidence-item">
+              <div class="ev-icon">📧</div>
+              <div><div class="ev-label">Evidence auto-collected</div><div class="ev-sub">#DIS-2891 · Order confirmation email parsed · 18 min ago</div></div>
+            </div>
+            <div class="evidence-item">
+              <div class="ev-icon">🔔</div>
+              <div><div class="ev-label">Merchant responded</div><div class="ev-sub">#DIS-2903 · Swiggy submitted delivery log · 2 hrs ago</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- File a Dispute -->
+      <div class="page" id="member-file">
+        <div class="page-header">
+          <div>
+            <div class="page-title">File a Dispute</div>
+            <div class="page-subtitle">We'll auto-collect evidence — you only need to fill in what we can't find</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-title">Select Transaction</div>
+              <div class="form-group">
+                <label class="form-label">Search by merchant, amount, or date</label>
+                <input class="form-input" placeholder="e.g. Zara, ₹4,200, last week" value="Zara India — ₹15,240 — 12 Jul 2025">
+              </div>
+              <div style="background:var(--offwh);border-radius:8px;padding:0.85rem;margin-bottom:1rem;border:1.5px solid var(--blue);">
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                  <div style="font-size:1.3rem;">🏪</div>
+                  <div>
+                    <div style="font-weight:700;font-size:0.88rem;color:var(--navy);">Zara India · Indiranagar, Bengaluru</div>
+                    <div style="font-size:0.75rem;color:var(--gray);">12 Jul 2025  ·  ₹15,240  ·  Clothing & Accessories (MCC 5621)  ·  In-store</div>
+                  </div>
+                  <span class="badge badge-blue" style="margin-left:auto;">Selected</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Dispute Reason</label>
+                <select class="form-select">
+                  <option>Item not received / Not delivered</option>
+                  <option>Item significantly different from description</option>
+                  <option>Duplicate charge</option>
+                  <option>Unauthorized transaction</option>
+                  <option>Merchant refused refund</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tell us what happened <span style="color:var(--gray);font-weight:400;">(optional — we already have the basics)</span></label>
+                <textarea class="form-textarea" placeholder="Any additional details that might help..."></textarea>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Add Supporting Evidence <span class="tag">Optional</span></div>
+              <div class="upload-zone">
+                <div class="upload-zone-icon">📎</div>
+                <div class="upload-zone-text">Drop files here or <strong>browse</strong> to upload<br><span style="font-size:0.72rem;">PDF, PNG, JPG · Max 10MB per file</span></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="background:var(--navy);color:white;border-color:var(--navy);">
+              <div class="card-title" style="color:var(--gold);">⚡ Evidence Autopilot — Already Collected</div>
+              <div style="font-size:0.77rem;color:var(--ice);margin-bottom:1rem;">We auto-gathered this before you had to ask:</div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon auto" style="background:rgba(0,111,207,0.3);">💳</div>
+                <div><div class="ev-label" style="color:white;">Transaction metadata</div><div class="ev-sub">₹15,240 · 12 Jul 2025 14:32 · Terminal #ZAR-BLR-042</div></div>
+                <span class="badge badge-green" style="margin-left:auto;">✓ Collected</span>
+              </div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon auto" style="background:rgba(0,111,207,0.3);">📧</div>
+                <div><div class="ev-label" style="color:white;">Order confirmation email</div><div class="ev-sub">Parsed by NLP · 3 items · Order #ZIN-884721</div></div>
+                <span class="badge badge-green" style="margin-left:auto;">✓ Parsed</span>
+              </div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon auto" style="background:rgba(0,111,207,0.3);">📋</div>
+                <div><div class="ev-label" style="color:white;">Chargeback code mapped</div><div class="ev-sub">AMEX Code 4513 · Item not as described</div></div>
+                <span class="badge badge-green" style="margin-left:auto;">✓ Matched</span>
+              </div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon auto" style="background:rgba(0,111,207,0.3);">🔍</div>
+                <div><div class="ev-label" style="color:white;">Similar case precedents</div><div class="ev-sub">18 similar cases found · 78% resolved for card member</div></div>
+                <span class="badge badge-green" style="margin-left:auto;">✓ Retrieved</span>
+              </div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon auto" style="background:rgba(200,168,75,0.25);">🏪</div>
+                <div><div class="ev-label" style="color:white;">Merchant webhook response</div><div class="ev-sub">Awaiting Zara's delivery confirmation...</div></div>
+                <span class="badge badge-amber" style="margin-left:auto;">⏳ Pending</span>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;padding:0.75rem;font-size:0.9rem;">Submit Dispute →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track Status -->
+      <div class="page" id="member-track">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Track Dispute #DIS-2891</div>
+            <div class="page-subtitle">Zara India · ₹15,240 · Filed 12 Jul 2025</div>
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <span class="badge badge-blue">🔄 In Review</span>
+            <button class="btn btn-secondary btn-sm">← All Disputes</button>
+          </div>
+        </div>
+
+        <div class="tracker">
+          <div class="tracker-step"><div class="tracker-dot done">✓</div><div class="tracker-label done">Filed</div></div>
+          <div class="tracker-line done"></div>
+          <div class="tracker-step"><div class="tracker-dot done">✓</div><div class="tracker-label done">Evidence Collected</div></div>
+          <div class="tracker-line done"></div>
+          <div class="tracker-step"><div class="tracker-dot active">3</div><div class="tracker-label active">FairScore™ Analysis</div></div>
+          <div class="tracker-line"></div>
+          <div class="tracker-step"><div class="tracker-dot pending">4</div><div class="tracker-label">Decision</div></div>
+          <div class="tracker-line"></div>
+          <div class="tracker-step"><div class="tracker-dot pending">5</div><div class="tracker-label">Credit Applied</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">FairScore™ Analysis in Progress</div>
+            <div class="section-label" style="margin-bottom:0.75rem;">Evidence strength being evaluated</div>
+            <div class="score-row"><div class="score-label">Evidence strength (your side)</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:82%;background:var(--green);"></div></div><div class="score-val" style="color:var(--green);">82</div></div>
+            <div class="score-row"><div class="score-label">Evidence strength (merchant)</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:35%;background:var(--red);"></div></div><div class="score-val" style="color:var(--red);">35</div></div>
+            <div class="score-row"><div class="score-label">Reason code alignment</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:91%;"></div></div><div class="score-val">91</div></div>
+            <div class="score-row"><div class="score-label">Case precedent similarity</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:78%;"></div></div><div class="score-val">78</div></div>
+            <div class="divider"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="font-size:0.82rem;color:var(--gray);">Overall confidence</div>
+              <div style="font-size:1.4rem;font-weight:800;color:var(--green);">84 / 100</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Evidence Collected</div>
+            <div class="evidence-item">
+              <div class="ev-icon auto">💳</div>
+              <div><div class="ev-label">Transaction metadata</div><div class="ev-sub">Auto-collected · ₹15,240 · 12 Jul</div></div>
+              <span class="badge badge-green" style="margin-left:auto;">✓</span>
+            </div>
+            <div class="evidence-item">
+              <div class="ev-icon auto">📧</div>
+              <div><div class="ev-label">Order confirmation (NLP-parsed)</div><div class="ev-sub">3 items, total ₹12,800 — mismatch flagged</div></div>
+              <span class="badge badge-green" style="margin-left:auto;">✓</span>
+            </div>
+            <div class="evidence-item">
+              <div class="ev-icon auto">🏪</div>
+              <div><div class="ev-label">Merchant delivery confirmation</div><div class="ev-sub">Zara India has not responded yet</div></div>
+              <span class="badge badge-red" style="margin-left:auto;">Missing</span>
+            </div>
+            <div class="evidence-item">
+              <div class="ev-icon">🔍</div>
+              <div><div class="ev-label">Similar precedents</div><div class="ev-sub">18 cases · 78% card member wins</div></div>
+              <span class="badge badge-green" style="margin-left:auto;">✓</span>
+            </div>
+          </div>
+        </div>
+        <div class="notif info">⏱ <strong>Expected resolution:</strong> FairScore™ analysis completes in ~2 minutes. You'll be notified instantly.</div>
+      </div>
+
+      <!-- Decision -->
+      <div class="page" id="member-decision">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Decision — #DIS-2847</div>
+            <div class="page-subtitle">Amazon India · ₹8,299 · Resolved 14 Jul 2025 at 09:04</div>
+          </div>
+          <span class="badge badge-green" style="font-size:0.8rem;padding:0.35rem 0.8rem;">✅ Resolved in your favour</span>
+        </div>
+
+        <div class="decision-box">
+          <div class="decision-header">
+            <div class="decision-icon">⚖️</div>
+            <div><div class="decision-title">Dispute resolved in your favour</div><div class="decision-sub">FairScore™ confidence: 91/100 · Auto-resolved in 4 min 12 sec</div></div>
+            <div class="confidence-pill">🟢 91% confidence</div>
+          </div>
+          <div class="decision-text">
+            ₹8,299 will be credited to your account within 3–5 business days. A copy of this decision has been sent to your registered email.
+          </div>
+        </div>
+
+        <div class="ai-box">
+          <div class="ai-label">🤖 ResolveIQ Explainability Engine — Why this was decided</div>
+          <div class="ai-text">
+            We resolved this dispute in your favour because: <strong>(1)</strong> Amazon India was unable to provide a signed delivery confirmation within the required 72-hour window after the dispute was filed. <strong>(2)</strong> The transaction amount (₹8,299) does not match the amount on your order confirmation email (₹6,499), indicating a discrepancy of ₹1,800. <strong>(3)</strong> 91% of similar cases in our system — same MCC code, same reason code, same dispute window — were resolved in the card member's favour.
+            <br><br>
+            This decision was made in accordance with <strong>AMEX Chargeback Code 4853</strong> (Merchandise Not Received). No human review was required.
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Key Evidence Factors</div>
+            <div class="score-row"><div class="score-label">Your evidence strength</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:88%;background:var(--green);"></div></div><div class="score-val" style="color:var(--green);">88</div></div>
+            <div class="score-row"><div class="score-label">Merchant evidence strength</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:18%;background:var(--red);"></div></div><div class="score-val" style="color:var(--red);">18</div></div>
+            <div class="score-row"><div class="score-label">Case precedent</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:91%;"></div></div><div class="score-val">91</div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Next Steps</div>
+            <div class="evidence-item">
+              <div class="ev-icon">💰</div>
+              <div><div class="ev-label">Credit of ₹8,299 initiated</div><div class="ev-sub">Arrives in 3–5 business days</div></div>
+            </div>
+            <div class="evidence-item">
+              <div class="ev-icon">📧</div>
+              <div><div class="ev-label">Decision email sent</div><div class="ev-sub">arjun.kumar@email.com</div></div>
+            </div>
+            <div class="evidence-item">
+              <div class="ev-icon">📋</div>
+              <div><div class="ev-label">Audit record created</div><div class="ev-sub">Hash: a3f8c...d92e · Immutable log</div></div>
+            </div>
+            <div class="divider"></div>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn btn-secondary btn-sm">📄 Download Decision PDF</button>
+              <button class="btn btn-secondary btn-sm">🔁 Appeal Decision</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PORTAL 2: MERCHANT -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="portal" id="portal-merchant">
+  <div class="portal-layout">
+    <aside class="sidebar" style="display:flex;flex-direction:column;">
+      <div class="sidebar-section">Disputes</div>
+      <div class="sidebar-item active" onclick="showPage('merchant','overview')"><span class="icon">📊</span> Overview</div>
+      <div class="sidebar-item" onclick="showPage('merchant','respond')"><span class="icon">📝</span> Respond to Dispute <span class="badge-count">1</span></div>
+      <div class="sidebar-item" onclick="showPage('merchant','history')"><span class="icon">🗂</span> History</div>
+      <div class="sidebar-section">Insights</div>
+      <div class="sidebar-item"><span class="icon">📈</span> Win/Loss Analytics</div>
+      <div class="sidebar-item"><span class="icon">💡</span> Recommendations</div>
+      <div class="sidebar-section">Account</div>
+      <div class="sidebar-item"><span class="icon">⚙️</span> Settings</div>
+      <div class="sidebar-item"><span class="icon">🔗</span> Webhook Config</div>
+      <div class="user-chip">
+        <div class="avatar">ZI</div>
+        <div><div style="color:white;font-weight:600;font-size:0.78rem;">Zara India</div><div style="font-size:0.65rem;">Merchant Account</div></div>
+      </div>
+    </aside>
+    <main class="main">
+
+      <!-- Overview -->
+      <div class="page active" id="merchant-overview">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Merchant Dispute Overview</div>
+            <div class="page-subtitle">Zara India · July 2025</div>
+          </div>
+          <button class="btn btn-primary" onclick="showPage('merchant','respond')">⚠️ 1 Response Needed</button>
+        </div>
+
+        <div class="notif warning">⚠️ <strong>Action required:</strong> Dispute #DIS-2891 needs your response by <strong>15 Jul 2025 at 23:59</strong> — 38 hours remaining.</div>
+
+        <div class="grid-4">
+          <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-label">Active Disputes</div><div class="stat-val">3</div><div class="stat-sub">1 response overdue</div></div>
+          <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-label">Win Rate (30d)</div><div class="stat-val">64%</div><div class="stat-sub">↑ 8% vs last month</div></div>
+          <div class="stat-card"><div class="stat-icon">💸</div><div class="stat-label">Amount at Risk</div><div class="stat-val">₹48,200</div><div class="stat-sub">across 3 active</div></div>
+          <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-label">Avg Response Time</div><div class="stat-val">6h</div><div class="stat-sub">vs 24h industry avg</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Active Disputes</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Case ID</th><th>Card Member</th><th>Amount</th><th>Reason</th><th>Deadline</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr onclick="showPage('merchant','respond')" style="cursor:pointer;">
+                  <td class="mono">#DIS-2891</td>
+                  <td>A. Kumar</td>
+                  <td><strong>₹15,240</strong></td>
+                  <td>Item not as described</td>
+                  <td style="color:var(--amber);font-weight:600;">38h left</td>
+                  <td><span class="badge badge-amber">⏳ Awaiting Response</span></td>
+                  <td><button class="btn btn-primary btn-sm" onclick="showPage('merchant','respond');event.stopPropagation()">Respond</button></td>
+                </tr>
+                <tr>
+                  <td class="mono">#DIS-2877</td>
+                  <td>S. Mehta</td>
+                  <td><strong>₹22,800</strong></td>
+                  <td>Not received</td>
+                  <td>2d left</td>
+                  <td><span class="badge badge-blue">📤 Response Submitted</span></td>
+                  <td><button class="btn btn-secondary btn-sm">View</button></td>
+                </tr>
+                <tr>
+                  <td class="mono">#DIS-2860</td>
+                  <td>P. Sharma</td>
+                  <td><strong>₹10,160</strong></td>
+                  <td>Duplicate charge</td>
+                  <td>—</td>
+                  <td><span class="badge badge-green">✅ Resolved (Won)</span></td>
+                  <td><button class="btn btn-secondary btn-sm">View Decision</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Respond to Dispute -->
+      <div class="page" id="merchant-respond">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Respond: Dispute #DIS-2891</div>
+            <div class="page-subtitle">A. Kumar · Zara Indiranagar · ₹15,240 · Reason: Item significantly different from description</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="showPage('merchant','overview')">← Back</button>
+        </div>
+
+        <div class="countdown">
+          <div class="countdown-icon">⏰</div>
+          <div class="countdown-text">Response deadline</div>
+          <div class="countdown-time">38:12:44</div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card" style="background:var(--navy);border-color:var(--navy);color:white;">
+              <div class="card-title" style="color:var(--gold);">📋 What We Know (Auto-collected)</div>
+              <div style="font-size:0.77rem;color:var(--ice);margin-bottom:0.75rem;">ResolveIQ has already gathered this from your systems and the card member's account:</div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon" style="background:rgba(0,111,207,0.3);">💳</div>
+                <div><div class="ev-label" style="color:white;">Transaction record</div><div class="ev-sub">₹15,240 · 12 Jul 14:32 · In-store · Terminal ZAR-BLR-042</div></div>
+              </div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon" style="background:rgba(0,111,207,0.3);">📧</div>
+                <div><div class="ev-label" style="color:white;">Card member's order confirmation</div><div class="ev-sub">3 items, total ₹12,800 — ₹2,440 discrepancy flagged</div></div>
+              </div>
+              <div class="evidence-item" style="border-color:rgba(255,255,255,0.1);">
+                <div class="ev-icon" style="background:rgba(200,168,75,0.2);">🏪</div>
+                <div><div class="ev-label" style="color:white;">Your delivery confirmation</div><div class="ev-sub">Not yet provided — this is the key missing item</div></div>
+                <span class="badge badge-red" style="margin-left:auto;">⚠️ Required</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Submit Your Evidence</div>
+              <div class="form-group">
+                <label class="form-label">Delivery / receipt confirmation <span style="color:var(--red);">*</span></label>
+                <div class="upload-zone" style="padding:1.25rem;">
+                  <div style="font-size:1.5rem;">📦</div>
+                  <div class="upload-zone-text">Upload signed receipt, delivery proof, or dispatch log</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your response statement</label>
+                <textarea class="form-textarea" placeholder="Describe what the card member purchased and confirm it matches what was provided..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Return / refund policy applicable?</label>
+                <select class="form-select">
+                  <option>15-day return policy — customer did not initiate</option>
+                  <option>30-day return policy</option>
+                  <option>No return policy for this item type</option>
+                  <option>Refund already issued</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" style="width:100%;justify-content:center;">Submit Response →</button>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">💡 What Increases Your Chances</div>
+              <div class="notif info" style="margin-bottom:0.75rem;">ResolveIQ has identified the key gaps in your case.</div>
+              <div class="evidence-item">
+                <div class="ev-icon">1️⃣</div>
+                <div><div class="ev-label">Upload a signed receipt or delivery log</div><div class="ev-sub">This is the highest-weight missing item. Without it, FairScore™ will heavily favour the card member.</div></div>
+              </div>
+              <div class="evidence-item">
+                <div class="ev-icon">2️⃣</div>
+                <div><div class="ev-label">Explain the ₹2,440 amount discrepancy</div><div class="ev-sub">The card member's email shows ₹12,800 vs your terminal charge of ₹15,240. Provide an itemised breakdown.</div></div>
+              </div>
+              <div class="evidence-item">
+                <div class="ev-icon">3️⃣</div>
+                <div><div class="ev-label">Confirm item descriptions match</div><div class="ev-sub">Reason code 4513 requires proof that items supplied match what was advertised.</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Similar Past Cases (Your Store)</div>
+              <div style="font-size:0.78rem;color:var(--gray);margin-bottom:0.75rem;">How this type of dispute has historically resolved for you:</div>
+              <div class="bar-chart">
+                <div class="bar-col"><div class="bar-val">Won</div><div class="bar-fill" style="height:70%;background:var(--green);"></div><div class="bar-label">With receipt</div></div>
+                <div class="bar-col"><div class="bar-val">Lost</div><div class="bar-fill" style="height:85%;background:var(--red);"></div><div class="bar-label">No receipt</div></div>
+                <div class="bar-col"><div class="bar-val">Won</div><div class="bar-fill" style="height:55%;background:var(--green);"></div><div class="bar-label">Full docs</div></div>
+                <div class="bar-col"><div class="bar-val">Split</div><div class="bar-fill" style="height:40%;background:var(--amber);"></div><div class="bar-label">Partial docs</div></div>
+              </div>
+              <div style="font-size:0.75rem;color:var(--gray);">Submitting a signed delivery confirmation improves win rate by ~42% for this reason code.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="page" id="merchant-history">
+        <div class="page-header">
+          <div class="page-title">Dispute History</div>
+          <div class="page-subtitle">All resolved disputes · Zara India</div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Case ID</th><th>Date</th><th>Amount</th><th>Reason</th><th>Outcome</th><th>Decision Basis</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td class="mono">#DIS-2860</td><td>10 Jul</td><td>₹10,160</td><td>Duplicate charge</td>
+                  <td><span class="badge badge-green">Won</span></td>
+                  <td style="font-size:0.75rem;color:var(--gray);">Bank confirmed single authorisation</td>
+                </tr>
+                <tr>
+                  <td class="mono">#DIS-2811</td><td>02 Jul</td><td>₹6,800</td><td>Not received</td>
+                  <td><span class="badge badge-red">Lost</span></td>
+                  <td style="font-size:0.75rem;color:var(--gray);">No delivery confirmation provided</td>
+                </tr>
+                <tr>
+                  <td class="mono">#DIS-2790</td><td>28 Jun</td><td>₹24,500</td><td>Item different</td>
+                  <td><span class="badge badge-green">Won</span></td>
+                  <td style="font-size:0.75rem;color:var(--gray);">Receipt matched, items confirmed</td>
+                </tr>
+                <tr>
+                  <td class="mono">#DIS-2754</td><td>18 Jun</td><td>₹3,200</td><td>Unauthorized</td>
+                  <td><span class="badge badge-red">Lost</span></td>
+                  <td style="font-size:0.75rem;color:var(--gray);">Card not present — liability shifted</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PORTAL 3: AMEX OPS DASHBOARD -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="portal" id="portal-ops">
+  <div class="portal-layout">
+    <aside class="sidebar" style="display:flex;flex-direction:column;">
+      <div class="sidebar-section">Operations</div>
+      <div class="sidebar-item active" onclick="showPage('ops','monitor')"><span class="icon">📊</span> Live Monitor</div>
+      <div class="sidebar-item" onclick="showPage('ops','queue')"><span class="icon">👤</span> Human Review Queue <span class="badge-count">4</span></div>
+      <div class="sidebar-item" onclick="showPage('ops','audit')"><span class="icon">🔒</span> Audit Log</div>
+      <div class="sidebar-section">Model</div>
+      <div class="sidebar-item"><span class="icon">🧠</span> FairScore™ Health</div>
+      <div class="sidebar-item"><span class="icon">⚖️</span> Fairness Metrics</div>
+      <div class="sidebar-section">Config</div>
+      <div class="sidebar-item"><span class="icon">⚙️</span> Thresholds</div>
+      <div class="sidebar-item"><span class="icon">📋</span> Chargeback Codes</div>
+      <div class="user-chip">
+        <div class="avatar">RP</div>
+        <div><div style="color:white;font-weight:600;font-size:0.78rem;">Rohan Pillai</div><div style="font-size:0.65rem;">AMEX Ops Analyst</div></div>
+      </div>
+    </aside>
+    <main class="main">
+
+      <!-- Live Monitor -->
+      <div class="page active" id="ops-monitor">
+        <div class="page-header">
+          <div>
+            <div class="page-title">ResolveIQ Live Monitor</div>
+            <div class="page-subtitle">Real-time dispute pipeline · July 14, 2025 · 15:42 IST</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(26,115,64,0.2);"></div>
+            <span style="font-size:0.78rem;color:var(--green);font-weight:600;">All systems operational</span>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat-card"><div class="stat-icon">📥</div><div class="stat-label">Disputes Today</div><div class="stat-val">1,247</div><div class="stat-sub" style="color:var(--blue);">↑ 12% vs yesterday</div></div>
+          <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-label">Auto-Resolved</div><div class="stat-val">873</div><div class="stat-sub">70.0% auto-rate</div></div>
+          <div class="stat-card"><div class="stat-icon">⏱</div><div class="stat-label">Avg Resolution Time</div><div class="stat-val">4.2m</div><div class="stat-sub">vs 21d baseline</div></div>
+          <div class="stat-card"><div class="stat-icon">👤</div><div class="stat-label">Human Review Queue</div><div class="stat-val" style="color:var(--amber);">4</div><div class="stat-sub" style="color:var(--amber);">2 urgent</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Hourly Dispute Volume</div>
+            <div class="bar-chart" style="height:140px;">
+              <div class="bar-col"><div class="bar-fill" style="height:40%;"></div><div class="bar-label">09h</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:55%;"></div><div class="bar-label">10h</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:70%;"></div><div class="bar-label">11h</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:65%;"></div><div class="bar-label">12h</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:80%;"></div><div class="bar-label">13h</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:90%;"></div><div class="bar-label">14h</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:75%;background:var(--gold);"></div><div class="bar-label">15h ▶</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">FairScore™ Outcomes (Today)</div>
+            <div style="display:flex;gap:0.75rem;margin-bottom:1rem;">
+              <div style="flex:1;background:var(--green2);border-radius:8px;padding:0.85rem;text-align:center;">
+                <div style="font-size:1.5rem;font-weight:800;color:var(--green);">521</div>
+                <div style="font-size:0.72rem;color:var(--green);">Favour Card Member</div>
+              </div>
+              <div style="flex:1;background:var(--ice);border-radius:8px;padding:0.85rem;text-align:center;">
+                <div style="font-size:1.5rem;font-weight:800;color:var(--blue);">352</div>
+                <div style="font-size:0.72rem;color:var(--blue);">Favour Merchant</div>
+              </div>
+              <div style="flex:1;background:var(--amber2);border-radius:8px;padding:0.85rem;text-align:center;">
+                <div style="font-size:1.5rem;font-weight:800;color:var(--amber);">4</div>
+                <div style="font-size:0.72rem;color:var(--amber);">Human Review</div>
+              </div>
+            </div>
+            <div class="score-row"><div class="score-label">Model fairness (Gini)</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:96%;background:var(--green);"></div></div><div class="score-val" style="color:var(--green);">0.96</div></div>
+            <div class="score-row"><div class="score-label">Avg confidence score</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:82%;"></div></div><div class="score-val">82</div></div>
+            <div class="score-row"><div class="score-label">Appeal rate (30d)</div><div class="score-bar-bg"><div class="score-bar-fill" style="width:28%;background:var(--green);"></div></div><div class="score-val" style="color:var(--green);">28%</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Last 10 Auto-Resolved Cases</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Case ID</th><th>Time</th><th>Merchant</th><th>Amount</th><th>Outcome</th><th>Confidence</th><th>Time Taken</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">#DIS-2912</td><td>15:41</td><td>Flipkart</td><td>₹4,299</td><td><span class="badge badge-green">Favour CM</span></td><td><strong style="color:var(--green);">94</strong></td><td>2m 11s</td></tr>
+                <tr><td class="mono">#DIS-2911</td><td>15:39</td><td>BookMyShow</td><td>₹1,800</td><td><span class="badge badge-blue">Favour Merchant</span></td><td><strong style="color:var(--blue);">88</strong></td><td>1m 48s</td></tr>
+                <tr><td class="mono">#DIS-2910</td><td>15:36</td><td>Swiggy</td><td>₹620</td><td><span class="badge badge-green">Favour CM</span></td><td><strong style="color:var(--green);">91</strong></td><td>3m 02s</td></tr>
+                <tr><td class="mono">#DIS-2909</td><td>15:31</td><td>MakeMyTrip</td><td>₹18,400</td><td><span class="badge badge-amber">Human Review</span></td><td><strong style="color:var(--amber);">54</strong></td><td>— routed</td></tr>
+                <tr><td class="mono">#DIS-2908</td><td>15:28</td><td>Amazon India</td><td>₹2,100</td><td><span class="badge badge-green">Favour CM</span></td><td><strong style="color:var(--green);">97</strong></td><td>1m 22s</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Human Review Queue -->
+      <div class="page" id="ops-queue">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Human Review Queue</div>
+            <div class="page-subtitle">Cases where FairScore™ confidence &lt; 65 — routed for analyst review</div>
+          </div>
+          <span class="badge badge-amber" style="font-size:0.8rem;padding:0.35rem 0.8rem;">4 pending · 2 urgent</span>
+        </div>
+
+        <div class="notif info">ℹ️ All cases below include full FairScore™ output and pre-loaded evidence. Average analyst review time: <strong>6 minutes</strong>.</div>
+
+        <div class="queue-item">
+          <div class="queue-score score-low">54</div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="font-weight:700;font-size:0.88rem;">#DIS-2909 · MakeMyTrip · ₹18,400</div>
+              <span class="badge badge-red">Urgent</span>
+              <span class="tag">Flight Cancellation</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--gray);margin-top:0.2rem;">Filed 2h ago · Conflicting delivery/non-delivery evidence · Merchant partially responded · Card member 9yr tenure</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;align-items:flex-end;">
+            <button class="btn btn-primary btn-sm">Review &amp; Decide</button>
+            <div style="font-size:0.7rem;color:var(--gray);">Evidence pre-loaded</div>
+          </div>
+        </div>
+
+        <div class="queue-item">
+          <div class="queue-score score-low">61</div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="font-weight:700;font-size:0.88rem;">#DIS-2904 · HDFC SmartBuy · ₹32,000</div>
+              <span class="badge badge-red">Urgent</span>
+              <span class="tag">High Value</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--gray);margin-top:0.2rem;">Filed 4h ago · High value case — auto-escalation triggered · Both parties provided strong conflicting evidence</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;align-items:flex-end;">
+            <button class="btn btn-primary btn-sm">Review &amp; Decide</button>
+            <div style="font-size:0.7rem;color:var(--gray);">Evidence pre-loaded</div>
+          </div>
+        </div>
+
+        <div class="queue-item">
+          <div class="queue-score score-med">63</div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="font-weight:700;font-size:0.88rem;">#DIS-2899 · Nykaa · ₹4,800</div>
+              <span class="badge badge-amber">Normal</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--gray);margin-top:0.2rem;">Filed 6h ago · Merchant response contradicts NLP-parsed email · Precedent score borderline</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;align-items:flex-end;">
+            <button class="btn btn-primary btn-sm">Review &amp; Decide</button>
+            <div style="font-size:0.7rem;color:var(--gray);">Evidence pre-loaded</div>
+          </div>
+        </div>
+
+        <div class="queue-item">
+          <div class="queue-score score-med">58</div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="font-weight:700;font-size:0.88rem;">#DIS-2895 · Myntra · ₹9,200</div>
+              <span class="badge badge-amber">Normal</span>
+              <span class="tag">Repeat Merchant</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--gray);margin-top:0.2rem;">Filed 7h ago · Merchant flagged as serial dispute merchant (14 disputes in 30d) · Needs policy review</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;align-items:flex-end;">
+            <button class="btn btn-primary btn-sm">Review &amp; Decide</button>
+            <div style="font-size:0.7rem;color:var(--gray);">Evidence pre-loaded</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Log -->
+      <div class="page" id="ops-audit">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Immutable Audit Log</div>
+            <div class="page-subtitle">Append-only · SHA-256 hash-chained · Every decision and action recorded</div>
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <button class="btn btn-secondary btn-sm">🔍 Search</button>
+            <button class="btn btn-secondary btn-sm">📥 Export CSV</button>
+          </div>
+        </div>
+
+        <div class="notif success">🔒 <strong>Audit integrity verified</strong> — All 1,247 records today are hash-chained and unmodified. Last check: 15:40 IST.</div>
+
+        <div class="card">
+          <div class="card-title">Recent Audit Entries</div>
+          <div class="log-entry">
+            <div class="log-time">15:41:22</div>
+            <div class="log-actor">SYSTEM</div>
+            <div class="log-action"><strong>#DIS-2912</strong> · FairScore™ output: 94 · Auto-resolved · Favour Card Member · ₹4,299 credit initiated</div>
+            <div class="log-hash">a3f8c9d1...</div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time">15:41:20</div>
+            <div class="log-actor">AUTOPILOT</div>
+            <div class="log-action"><strong>#DIS-2912</strong> · Evidence collected: transaction metadata, NLP email parse, 12 precedents retrieved</div>
+            <div class="log-hash">b7e2f4a8...</div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time">15:41:18</div>
+            <div class="log-actor">CARD MEMBER</div>
+            <div class="log-action"><strong>#DIS-2912</strong> · Dispute filed via portal · Reason: Item not received · Amount: ₹4,299</div>
+            <div class="log-hash">c9d3e1f2...</div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time">15:39:55</div>
+            <div class="log-actor">SYSTEM</div>
+            <div class="log-action"><strong>#DIS-2911</strong> · FairScore™ output: 88 · Auto-resolved · Favour Merchant · No credit issued</div>
+            <div class="log-hash">d1a4b8c7...</div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time">15:36:12</div>
+            <div class="log-actor">SYSTEM</div>
+            <div class="log-action"><strong>#DIS-2909</strong> · Confidence: 54 &lt; threshold (65) · Escalated to Human Review Queue</div>
+            <div class="log-hash">e5f2c3d9...</div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time">15:28:44</div>
+            <div class="log-actor">LLM ENGINE</div>
+            <div class="log-action"><strong>#DIS-2908</strong> · Decision explanation generated · Card member + merchant versions · 312 tokens</div>
+            <div class="log-hash">f8g1h4j2...</div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time">15:28:41</div>
+            <div class="log-actor">SYSTEM</div>
+            <div class="log-action"><strong>#DIS-2908</strong> · FairScore™ output: 97 · Auto-resolved · Favour Card Member · ₹2,100 credit initiated</div>
+            <div class="log-hash">g3i9k7m1...</div>
+          </div>
+          <div class="log-entry">
+            <div class="log-time">14:52:08</div>
+            <div class="log-actor">OPS ANALYST</div>
+            <div class="log-action"><strong>#DIS-2888</strong> · Human review completed by R. Pillai · Decision: Favour Card Member · Override note added</div>
+            <div class="log-hash">h4j8l2n6...</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Hash Chain Integrity</div>
+          <div class="grid-3">
+            <div style="text-align:center;padding:1rem;">
+              <div style="font-size:2rem;font-weight:800;color:var(--green);">100%</div>
+              <div style="font-size:0.75rem;color:var(--gray);">Records verified today</div>
+            </div>
+            <div style="text-align:center;padding:1rem;">
+              <div style="font-size:2rem;font-weight:800;color:var(--navy);">1,247</div>
+              <div style="font-size:0.75rem;color:var(--gray);">Entries in chain today</div>
+            </div>
+            <div style="text-align:center;padding:1rem;">
+              <div style="font-size:2rem;font-weight:800;color:var(--blue);">0</div>
+              <div style="font-size:0.75rem;color:var(--gray);">Integrity violations detected</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  function switchPortal(portal) {
+    document.querySelectorAll('.portal').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+    document.getElementById('portal-' + portal).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function showPage(portal, page) {
+    const allPages = document.querySelectorAll('#portal-' + portal + ' .page');
+    allPages.forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(portal + '-' + page);
+    if (target) target.classList.add('active');
+
+    // Update sidebar active state
+    const sidebar = document.querySelector('#portal-' + portal + ' .sidebar');
+    if (sidebar) {
+      sidebar.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+    }
+  }
+
+  // Sidebar items auto-navigate
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    item.addEventListener('click', function() {
+      this.closest('.sidebar').querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
